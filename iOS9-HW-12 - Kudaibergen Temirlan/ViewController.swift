@@ -6,24 +6,47 @@
 //
 
 import UIKit
+import SnapKit
+
 
 class ViewController: UIViewController {
+    
+    // MARK: - Outlets
 
-//    MARK: - Outlets
+    private var shapeView: UIImageView = {
+        let loadImage = UIImageView()
+        loadImage.image = UIImage(named: "circle")
+        loadImage.translatesAutoresizingMaskIntoConstraints = false
+        return loadImage
+    }()
     
-    
-//    MARK: - Lifecyle
+    // MARK: - Lifcycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.addSubview(shapeView)
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png") ?? UIImage.remove)
+        setupLayout()
+        setupHierarchy()
     }
     
-//    MARK: - Setup
+    // MARK: - Setup
     
+    private func setupHierarchy() {
+        view.addSubview(shapeView)
+
+    }
     
-//    MARK: - Actions
+    private func setupLayout() {
+        shapeView.snp.makeConstraints{ make in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view)
+            make.height.equalTo(300)
+            make.width.equalTo(300)
+        }
 
-
+    }
 }
+
+// MARK: - Actions
 

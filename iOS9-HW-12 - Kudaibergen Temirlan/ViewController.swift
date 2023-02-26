@@ -21,14 +21,16 @@ class ViewController: UIViewController {
     }()
     
     private var timerLable: UILabel = {
-        let lable = UILabel()
-        lable.text = "25"
-        lable.textColor = .black
-        lable.textAlignment = .center
-        lable.font = UIFont.boldSystemFont(ofSize: 84)
-        lable.numberOfLines = 0
-        lable.translatesAutoresizingMaskIntoConstraints = false
-        return lable
+        var isWorkTime = Bool()
+        var isStarted = Bool()
+        var timerLable = UILabel()
+        timerLable.text = ""
+        timerLable.textColor = .black
+        timerLable.textAlignment = .center
+        timerLable.font = UIFont.boldSystemFont(ofSize: 84)
+        timerLable.numberOfLines = 0
+        timerLable.translatesAutoresizingMaskIntoConstraints = false
+        return timerLable
     }()
     
     private var startButton: UIButton = {
@@ -36,20 +38,42 @@ class ViewController: UIViewController {
         button.layer.cornerRadius = 20
         button.setImage(UIImage(named: "play"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Play", for: .normal)
+        button.setTitleColor(.black, for: .normal)
         return button
-        
     }()
+
+    
+
+    // MARK: - Properties
+    
+    var timer = Timer()
+    var durationTimer = 25
     
     // MARK: - Lifcycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(shapeView)
+        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        timerLable.text = "\(durationTimer)"
         shapeView.addSubview(timerLable)
         shapeView.addSubview(startButton)
         view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png") ?? UIImage.remove)
         setupLayout()
         setupHierarchy()
+        
+    }
+     
+    @objc func startButtonTapped() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+    }
+    
+    @objc func timerAction() {
+        
+        durationTimer -= 1
+        timerLable.text = "\(durationTimer)"
+        print(durationTimer)
     }
     
     // MARK: - Setup
@@ -58,7 +82,7 @@ class ViewController: UIViewController {
         view.addSubview(shapeView)
         shapeView.addSubview(timerLable)
         shapeView.addSubview(startButton)
-
+        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
     
     private func setupLayout() {
@@ -75,9 +99,9 @@ class ViewController: UIViewController {
         startButton.snp.makeConstraints{ make in
             make.centerX.equalTo(shapeView)
             make.centerY.equalTo(shapeView).offset(75)
+            make.height.equalTo(700)
+            make.width.equalTo(300)
         }
-        
-
     }
 }
 

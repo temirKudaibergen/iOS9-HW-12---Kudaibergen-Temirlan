@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C80CC5D729AB7DBA00841887 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C80CC5D629AB7DBA00841887 /* SnapKit */; };
+		C85832D429AFBCC800A958FB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85832D329AFBCC800A958FB /* Extensions.swift */; };
 		C866784B29AB46B60024D28E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866784A29AB46B60024D28E /* AppDelegate.swift */; };
 		C866784D29AB46B60024D28E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866784C29AB46B60024D28E /* SceneDelegate.swift */; };
 		C866784F29AB46B60024D28E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866784E29AB46B60024D28E /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C85832D329AFBCC800A958FB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C866784729AB46B60024D28E /* iOS9-HW-12 - Kudaibergen Temirlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS9-HW-12 - Kudaibergen Temirlan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C866784A29AB46B60024D28E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C866784C29AB46B60024D28E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +39,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C85832D229AFBC1500A958FB /* UIKit+Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C866784E29AB46B60024D28E /* ViewController.swift */,
+				C85832D329AFBCC800A958FB /* Extensions.swift */,
+			);
+			path = "UIKit+Extensions";
+			sourceTree = "<group>";
+		};
 		C866783E29AB46B60024D28E = {
 			isa = PBXGroup;
 			children = (
@@ -56,9 +67,9 @@
 		C866784929AB46B60024D28E /* iOS9-HW-12 - Kudaibergen Temirlan */ = {
 			isa = PBXGroup;
 			children = (
-				C866786029AB46E30024D28E /* Sources */,
 				C866785E29AB46C50024D28E /* Resources */,
-				C866784E29AB46B60024D28E /* ViewController.swift */,
+				C866786029AB46E30024D28E /* Sources */,
+				C85832D229AFBC1500A958FB /* UIKit+Extensions */,
 			);
 			path = "iOS9-HW-12 - Kudaibergen Temirlan";
 			sourceTree = "<group>";
@@ -185,6 +196,7 @@
 				C866784F29AB46B60024D28E /* ViewController.swift in Sources */,
 				C866784B29AB46B60024D28E /* AppDelegate.swift in Sources */,
 				C866784D29AB46B60024D28E /* SceneDelegate.swift in Sources */,
+				C85832D429AFBCC800A958FB /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

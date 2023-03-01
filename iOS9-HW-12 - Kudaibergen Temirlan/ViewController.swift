@@ -13,29 +13,35 @@ class ViewController: UIViewController {
     
     // MARK: - Outlets
     
-    private var shapeView: UIImageView = {
+    private lazy var shapeView: UIImageView = {
         let loadImage = UIImageView()
         loadImage.image = UIImage(named: "circle")
-        loadImage.translatesAutoresizingMaskIntoConstraints = false
         return loadImage
     }()
     
-    private var timerLable: UILabel = {        var timerLable = UILabel()
+    private lazy var timerLable: UILabel = {
+        var timerLable = UILabel()
         timerLable.text = " "
         timerLable.textColor = .black
         timerLable.textAlignment = .center
         timerLable.font = UIFont.boldSystemFont(ofSize: 84)
         timerLable.numberOfLines = 0
-        timerLable.translatesAutoresizingMaskIntoConstraints = false
         return timerLable
     }()
     
-    private var startButton: UIButton = {
-        let button = UIButton()
+    private lazy var startButton: UIButton = {
+        var imageFlag = false
+        let button = UIButton(type: .system)
         button.layer.cornerRadius = 20
-        button.setImage(UIImage(named: "play"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget( .none, action: #selector(startTimer), for: .touchUpInside)
+        button.addTarget(self, action: #selector(startTimer), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var pauseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.layer.cornerRadius = 20
+        button.setImage(UIImage(named: "stop"), for: .normal)
+        button.addTarget(self, action: #selector(restartTime), for: .touchUpInside)
         return button
     }()
     
@@ -44,23 +50,23 @@ class ViewController: UIViewController {
     // MARK: - Properties
     
     var timer = Timer()
-    var durationTimer = 25
-    let shapLayer = CAShapeLayer()
+    var durationTimer = 5
+    let circularAnimation = CAShapeLayer()
+    var isTimerStarted = true
+    var isAnimationStarted = true
     
     // MARK: - Lifcycle
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.animationCircular()
-    }
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        self.animationCircular()
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(shapeView)
         view.addSubview(timerLable)
         view.addSubview(startButton)
-        startButton.addTarget(self,
-                              action: #selector(startTimer),
-                              for: .touchUpInside)
+        view.addSubview(pauseButton)
         view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png") ?? UIImage.remove)
         setupLayout()
         setupHierarchy()
@@ -68,32 +74,12 @@ class ViewController: UIViewController {
         animationCircular()
     }
     
-    @objc func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1,
-                                     target: self,
-                                     selector: #selector(timerAction),
-                                     userInfo: nil, repeats: true)
-    }
     
-    @objc func timerAction() {
-        durationTimer -= 1
-        timerLable.text = formatTime()
-        if durationTimer == 15 {
-            timer.invalidate()
-        }
-    }
-    
-    func formatTime()->String{
-        let minutes = Int(durationTimer) / 60 % 60
-        let seconds = Int(durationTimer) % 60
-        return String(format:"%02i:%02i", minutes, seconds)
-        
-    }
     
     // MARK: - Animation
     func animationCircular() {
-        let center = CGPoint(x: shapeView.frame.width / 2,
-                             y: shapeView.frame.height / 2)
+        let center = CGPoint(x: view.frame.width / 2,
+                             y: view.frame.height / 2)
         let endAngle = (-CGFloat.pi / 2)
         let startAngel = 2 * CGFloat.pi + endAngle
         let circularPath = UIBezierPath(arcCenter: center,
@@ -101,13 +87,13 @@ class ViewController: UIViewController {
                                         startAngle: startAngel,
                                         endAngle: endAngle,
                                         clockwise: true)
-        shapLayer.path = circularPath.cgPath
-        shapLayer.lineWidth = 21
-        shapLayer.fillColor = UIColor.clear.cgColor
-        shapLayer.strokeEnd = 1
-        shapLayer.lineCap = CAShapeLayerLineCap.round
-        shapLayer.strokeColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1).cgColor
-        shapeView.layer.addSublayer(shapLayer)
+        circularAnimation.path = circularPath.cgPath
+        circularAnimation.lineWidth = 21
+        circularAnimation.fillColor = UIColor.clear.cgColor
+        circularAnimation.strokeEnd = 1
+        circularAnimation.lineCap = CAShapeLayerLineCap.round
+        circularAnimation.strokeColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1).cgColor
+        shapeView.layer.addSublayer(circularAnimation)
     }
     
     
@@ -117,6 +103,7 @@ class ViewController: UIViewController {
         view.addSubview(shapeView)
         view.addSubview(timerLable)
         view.addSubview(startButton)
+        view.addSubview(pauseButton)
     }
     
     private func setupLayout() {
@@ -131,13 +118,59 @@ class ViewController: UIViewController {
             make.centerY.equalTo(shapeView)
         }
         startButton.snp.makeConstraints{ make in
-            make.centerX.equalTo(view)
+            make.centerX.equalTo(view).offset(-20)
+            make.centerY.equalTo(view).offset(75)
+            make.height.equalTo(50)
+            make.width.equalTo(50)
+        }
+        pauseButton.snp.makeConstraints{ make in
+            make.centerX.equalTo(view).offset(20)
             make.centerY.equalTo(view).offset(75)
             make.height.equalTo(50)
             make.width.equalTo(50)
         }
     }
+    
+    // MARK: - Actions
+
+    @objc func startTimer() {
+        if !isTimerStarted {
+            startButton.setImage(UIImage(named: "pause"), for: .normal)
+            timerAction()
+            isTimerStarted = true
+        } else {
+            startButton.setImage(UIImage(named: "play"), for: .normal)
+            timerLable.text = formatTime()
+            timer.invalidate()
+            isTimerStarted = false
+        }
+    }
+    
+    @objc func timerAction() {
+        timer = Timer.scheduledTimer(timeInterval: 1,
+                                             target: self,
+                                             selector: #selector(timeValueUpdate),
+                                             userInfo: nil, repeats: true)
+        }
+    
+    @objc func timeValueUpdate() {
+        durationTimer -= 1
+        if durationTimer == 0 {
+            timer.invalidate()
+        }
+        timerLable.text = formatTime()
+    }
+    
+    @objc func restartTime() {
+        durationTimer = 5
+        timer.invalidate()
+        timerLable.text = formatTime()
+        isTimerStarted = false
+    }
+    
+    func formatTime()->String{
+        let minutes = Int(durationTimer) / 60 % 60
+        let seconds = Int(durationTimer) % 60
+        return String(format:"%02i:%02i", minutes, seconds)
+    }
 }
-
-// MARK: - Actions
-

@@ -44,15 +44,13 @@ class ViewController: UIViewController, CAAnimationDelegate {
         return button
     }()
     
-    
-    
     // MARK: - Properties
     
-    var timer = Timer()
-    var durationTimer = 25
-    let progresslayer = CAShapeLayer()
-    var isTimerStarted = true
-    var isAnimationStarted = false
+    private var timer = Timer()
+    private var durationTimer: UInt = 25
+    private let progresslayer = CAShapeLayer()
+    private var isTimerStarted = true
+    private var isAnimationStarted = false
     
     // MARK: - Lifcycle
     
@@ -68,11 +66,9 @@ class ViewController: UIViewController, CAAnimationDelegate {
         startTimer()
     }
     
-    
-    
     // MARK: - Animation
     
-    func animationCircular() {
+    private func animationCircular() {
         progresslayer.path = UIBezierPath(arcCenter: CGPoint(x: view.frame.midX, y: view.frame.midY),
                                           radius: 141,
                                           startAngle: -90.degreesToRadians,
@@ -84,7 +80,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
         view.layer.addSublayer(progresslayer)
     }
     
-    func startResumeAnimation() {
+    private func startResumeAnimation() {
         if !isAnimationStarted {
             startAnimation()
         } else {
@@ -92,7 +88,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
         }
     }
     
-    func startAnimation() {
+    private func startAnimation() {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.keyPath = "strokeEnd"
         animation.fromValue = 0
@@ -106,10 +102,9 @@ class ViewController: UIViewController, CAAnimationDelegate {
         progresslayer.add(animation, forKey: "strokeEnd")
         resetAnimation()
         isAnimationStarted = true
-        
     }
     
-    func resetAnimation() {
+    private func resetAnimation() {
         progresslayer.speed = 1.0
         progresslayer.timeOffset = 0.0
         progresslayer.beginTime = 0.0
@@ -117,13 +112,13 @@ class ViewController: UIViewController, CAAnimationDelegate {
         isAnimationStarted = false
     }
     
-    func pauseAnimation() {
+    private func pauseAnimation() {
         let pausedTime = progresslayer.convertTime(CACurrentMediaTime(), from: nil)
         progresslayer.speed = 0.0
         progresslayer.timeOffset = pausedTime
     }
     
-    func resumeAnimation() {
+    private func resumeAnimation() {
         let pausedTime = progresslayer.timeOffset
         progresslayer.speed = 1.0
         progresslayer.timeOffset = 0.0
@@ -132,7 +127,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
         progresslayer.beginTime = timeSincePaused
     }
     
-    func stopAnimation() {
+    private func stopAnimation() {
         progresslayer.speed = 1.0
         progresslayer.timeOffset = 0.0
         progresslayer.beginTime = 0.0
@@ -141,7 +136,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
         isAnimationStarted = false
     }
     
-    internal func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         stopAnimation()
     }
     
@@ -156,14 +151,12 @@ class ViewController: UIViewController, CAAnimationDelegate {
     
     private func setupLayout() {
         shapeView.snp.makeConstraints{
-            $0.centerX.equalTo(view)
-            $0.centerY.equalTo(view)
+            $0.centerX.centerY.equalTo(view)
             $0.height.equalTo(300)
             $0.width.equalTo(300)
         }
         timerLabel.snp.makeConstraints{
-            $0.centerX.equalTo(shapeView)
-            $0.centerY.equalTo(shapeView)
+            $0.centerX.centerY.equalTo(shapeView)
         }
         startButton.snp.makeConstraints{
             $0.centerX.equalTo(view).offset(-20)
@@ -206,7 +199,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
     
     @objc func timeValueUpdate() {
         durationTimer -= 1
-        if durationTimer == 0 {
+        if durationTimer <= 0 {
             timer.invalidate()
         }
         timerLabel.text = formatTime()

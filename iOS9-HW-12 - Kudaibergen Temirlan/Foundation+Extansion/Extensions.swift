@@ -5,7 +5,7 @@
 //  Created by Темирлан Кудайберген on 01.03.2023.
 //
 
-import UIKit
+import Foundation
 
 extension Int {
     var degreesToRadians: CGFloat {

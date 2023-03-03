@@ -43,7 +43,6 @@
 			isa = PBXGroup;
 			children = (
 				C866784E29AB46B60024D28E /* ViewController.swift */,
-				C85832D329AFBCC800A958FB /* Extensions.swift */,
 			);
 			path = "UIKit+Extensions";
 			sourceTree = "<group>";
@@ -70,6 +69,7 @@
 				C866785E29AB46C50024D28E /* Resources */,
 				C866786029AB46E30024D28E /* Sources */,
 				C85832D229AFBC1500A958FB /* UIKit+Extensions */,
+				C8A91F1929B2096400ACE3B8 /* Foundation+Extansion */,
 			);
 			path = "iOS9-HW-12 - Kudaibergen Temirlan";
 			sourceTree = "<group>";
@@ -115,6 +115,14 @@
 				C866785529AB46B80024D28E /* LaunchScreen.storyboard */,
 			);
 			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		C8A91F1929B2096400ACE3B8 /* Foundation+Extansion */ = {
+			isa = PBXGroup;
+			children = (
+				C85832D329AFBCC800A958FB /* Extensions.swift */,
+			);
+			path = "Foundation+Extansion";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

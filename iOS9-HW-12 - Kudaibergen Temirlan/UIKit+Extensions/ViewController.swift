@@ -57,12 +57,8 @@ class ViewController: UIViewController, CAAnimationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png") ?? UIImage.remove)
-        view.addSubview(shapeView)
-        view.addSubview(timerLabel)
-        view.addSubview(startButton)
-        view.addSubview(pauseButton)
-        setupLayout()
         setupHierarchy()
+        setupLayout()
         startTimer()
     }
     
@@ -201,6 +197,8 @@ class ViewController: UIViewController, CAAnimationDelegate {
         durationTimer -= 1
         if durationTimer <= 0 {
             timer.invalidate()
+            durationTimer = 25
+            startButton.setImage(UIImage(named: "play"), for: .normal)
         }
         timerLabel.text = formatTime()
     }

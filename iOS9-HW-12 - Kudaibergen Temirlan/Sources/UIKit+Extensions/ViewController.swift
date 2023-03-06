@@ -212,7 +212,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
         isTimerStarted = false
     }
     
-    func formatTime()->String{
+    private func formatTime()->String{
         let minutes = Int(durationTimer) / 60 % 60
         let seconds = Int(durationTimer) % 60
         return String(format:"%02i:%02i", minutes, seconds)

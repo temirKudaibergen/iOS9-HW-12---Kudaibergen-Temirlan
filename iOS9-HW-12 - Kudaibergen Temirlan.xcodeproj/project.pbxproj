@@ -68,8 +68,6 @@
 			children = (
 				C866785E29AB46C50024D28E /* Resources */,
 				C866786029AB46E30024D28E /* Sources */,
-				C85832D229AFBC1500A958FB /* UIKit+Extensions */,
-				C8A91F1929B2096400ACE3B8 /* Foundation+Extansion */,
 			);
 			path = "iOS9-HW-12 - Kudaibergen Temirlan";
 			sourceTree = "<group>";
@@ -96,6 +94,8 @@
 			children = (
 				C866786229AB470D0024D28E /* Storyboard */,
 				C866786129AB46EB0024D28E /* App */,
+				C85832D229AFBC1500A958FB /* UIKit+Extensions */,
+				C8A91F1929B2096400ACE3B8 /* Foundation+Extansion */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
